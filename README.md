@@ -49,3 +49,21 @@ Lambda and VPCs
 • Provide VPC config to the function – private subnet ID, security group ID.
 • Lambda uses the VPC information to set up ENIs using an IP from the private subnet CIDR range.
 • The security group then allows your function to access resources in VPC.
+
+### 5.9 Step Functions - Demo
+Step Functions allows you to visualize and test your serverless
+applications. Step Functions provides a graphical console to
+arrange and visualize the components of your application as a
+series of steps. This makes it simple to build and run multistep
+applications. Step Functions automatically triggers and tracks
+each step, and retries when there are errors, so your application
+executes in order and as expected. Step Functions logs the state
+of each step, so when things do go wrong, you can diagnose and
+debug problems quickly
+
+• Great way to visualize your serverless application.
+• Step Functions automatically triggers and tracks each step.
+• Step Functions logs the state of each step so if something
+goes wrong you can track what went wrong and where
+
+- [Perguntas frequentes sobre o AWS Step Functions](https://aws.amazon.com/pt/step-functions/faqs/)
