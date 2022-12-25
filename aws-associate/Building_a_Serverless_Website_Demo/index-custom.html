@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  Olá mundo!
+  <input type="button" name="button" id="button" value="Click me">
+  <div class="box">
+    Vazio
+  </div>
+  <script>
+    const button = document.querySelector("input[type=button]")
+    const box = document.querySelector(".box")
+    const url = 'https://yvghlzp144.execute-api.us-east-1.amazonaws.com/prod/hello'
+    button.addEventListener('click', () => {
+      console.log('clicked')
+      fetch(url, {method: 'GET'})
+        .then(response => response.json())
+        .then(result => box.innerText = result.message)
+    })
+  </script>
+</body>
+</html>
