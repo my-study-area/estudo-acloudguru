@@ -70,6 +70,14 @@ goes wrong you can track what went wrong and where
 
 ### Hand-on Lab: Building a Serverless Application Using Step Functions, API Gateway, Lambda, and S3 in AWS
 - [GitHub repository](https://github.com/JulieElkinsAWS/LALabs)
+
+Anotações:
+- criar email no SES
+-  criar lambda email (email_reminder.py) e atualizar email gerado no SES
+- criar lambda sms (sms_reminder.py)
+- criar Step Function
+- criar API GAteway (api_handler.py) e atualizar ARN da Step Function
+
 Exemplo de request
 ```json
 {
@@ -79,4 +87,4 @@ Exemplo de request
   "phone": "+5511999999999",
   "email": "seuemail@dominio.com"
 }
-```
+``` 
