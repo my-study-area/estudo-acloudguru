@@ -67,3 +67,16 @@ debug problems quickly
 goes wrong you can track what went wrong and where
 
 - [Perguntas frequentes sobre o AWS Step Functions](https://aws.amazon.com/pt/step-functions/faqs/)
+
+### Hand-on Lab: Building a Serverless Application Using Step Functions, API Gateway, Lambda, and S3 in AWS
+- [GitHub repository](https://github.com/JulieElkinsAWS/LALabs)
+Exemplo de request
+```json
+{
+  "waitSeconds":"1",
+  "preference": "email",
+  "message": "mensagem um",
+  "phone": "+5511999999999",
+  "email": "seuemail@dominio.com"
+}
+```
