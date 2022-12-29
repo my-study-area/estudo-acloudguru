@@ -137,3 +137,16 @@ In Express Workflow we have two types: syncronous ans asynchronous
 Express
 Syncrono
 Assyncrono
+
+### 5.13 Understanding X-Ray
+`AWS X-Ray` is a service that collects data about requests that
+your application serves, and provides tools you can use to view,
+filter, and gain insights into that data to identify issues and
+opportunities for optimization. For any traced request to your
+application, you can see detailed information not only about the
+request and response, but also about calls that your application
+makes to downstream AWS resources, microservices, databases
+and HTTP web APIs.
+
+- [Perguntas frequentes sobre o AWS X-Ray](https://aws.amazon.com/pt/xray/faqs/)
+- [Integrating AWS X-Ray with other AWS services](https://docs.aws.amazon.com/xray/latest/devguide/xray-services.html)
