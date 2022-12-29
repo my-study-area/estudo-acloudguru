@@ -120,3 +120,20 @@ S3 Bucket with Public Access Enabled
     ]
 }
 ```
+
+### 5.12 Comparing Step Functions Workflows
+- [Standard vs. Express Workflows](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-standard-vs-express.html)
+- Standard Workflow
+  - Long running
+  - At most once Model: tasks are never executed more than once, unless you explicity specify retry actions.
+  - No-Idempotent Actions: When processing payments, you only want a payment to be processed once, not multiple times.
+- Express Workflow
+  - Short Lived: up to 5 minutes
+  - At leat once model: ideal if there is a possibility that an execution might be run more than once or you require multiple concurrent executions.
+  - Idempotent: for example, transforming input data and storing the result in DynamoDB
+
+In Express Workflow we have two types: syncronous ans asynchronous
+
+Express
+Syncrono
+Assyncrono
