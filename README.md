@@ -88,3 +88,35 @@ Exemplo de request
   "email": "seuemail@dominio.com"
 }
 ``` 
+
+### Hands-on Lab: Building and Troubleshooting a Serverless Web Application
+- [GitHub repository](https://github.com/ACloudGuru/hands-on-aws-troubleshooting/tree/main/Building_and_Troubleshooting_a_Serverless_Web_Application)
+
+```bash
+git clone https://github.com/ACloudGuru/hands-on-aws-troubleshooting/
+
+cd hands-on-aws-troubleshooting/Building_and_Troubleshooting_a_Serverless_Web_Application/
+
+aws dynamodb create-table --table-name fortunes --attribute-definitions \
+AttributeName=fort_id,AttributeType=N --key-schema \
+AttributeName=fort_id,KeyType=HASH \
+--provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
+
+aws dynamodb batch-write-item --request-items file://items.json
+```
+S3 Bucket with Public Access Enabled
+```json
+{
+    "Version": "2012-10-17",
+    "Id": "Policy1650555565088",
+    "Statement": [
+        {
+            "Sid": "Stmt1650555563210",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::mywebsitefiles6754376825/*"
+        }
+    ]
+}
+```
