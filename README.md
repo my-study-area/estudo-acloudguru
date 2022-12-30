@@ -150,3 +150,20 @@ and HTTP web APIs.
 
 - [Perguntas frequentes sobre o AWS X-Ray](https://aws.amazon.com/pt/xray/faqs/)
 - [Integrating AWS X-Ray with other AWS services](https://docs.aws.amazon.com/xray/latest/devguide/xray-services.html)
+
+### 5.15 X-Ray Configuration
+High-Level Configuration Steps
+
+X-Ray integrates with many AWS services like DynamoDB, Lambda, API Gateway, etc.
+- You can also instrument your own applications to send data to X-Ray.
+- Applications can be running on EC2, Elastic Beanstalk environments, on-premises systems and
+ECS.
+- For ECS, run the X-Ray daemon in it’s own Docker image, running alongside your application
+- You’ll need three things:
+  1. X-Ray SDK.
+  2. X-Ray daemon.
+  3. Instrument your application using the SDK to send the required data to X-Ray, e.g. data about
+incoming HTTP requests to your application.
+- If you want to also record application specific information in the form of key-value pairs, use
+annotations to add user defined key-value pairs to your X-Ray data – allows you to filter, index and
+search within X-Ray, e.g. game_name=TicTacToe, game_id=2645445842
