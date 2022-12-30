@@ -167,3 +167,10 @@ incoming HTTP requests to your application.
 - If you want to also record application specific information in the form of key-value pairs, use
 annotations to add user defined key-value pairs to your X-Ray data – allows you to filter, index and
 search within X-Ray, e.g. game_name=TicTacToe, game_id=2645445842
+
+### 5.16 Advanced API Gateway
+Import API’s using Swagger 2.0 definition files
+- API Gateway can be throttled
+- Default limits are 10,000 RPS or 5000 concurrently
+- You can configure API Gateway as a SOAP Webservice
+passthrough or you can transform XML to JSON
