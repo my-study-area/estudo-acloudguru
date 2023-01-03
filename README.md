@@ -174,3 +174,21 @@ Import API’s using Swagger 2.0 definition files
 - Default limits are 10,000 RPS or 5000 concurrently
 - You can configure API Gateway as a SOAP Webservice
 passthrough or you can transform XML to JSON
+
+## Certified Associate in Python Programming Certification (PCAP 31-03)
+
+### 2. Environment Setup
+- [Simple Python Version Management: pyenv](https://github.com/pyenv/pyenv)
+- [code-server](https://github.com/coder/code-server)
+- [annotations](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602795379212-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%202.1%20Installing%20Python%203.7%20on%20a%20Cloud%20Playground.txt)
+
+### 3. Lambdas, Closures, and Collection Functions
+#### 3.1 Defining and Using Lambdas
+```python
+def square(num):
+  return num * num
+
+square_lambda = lambda num: num * 1
+
+assert square_lambda(2) == square(2)
+```
