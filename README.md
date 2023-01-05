@@ -175,6 +175,13 @@ Import API’s using Swagger 2.0 definition files
 - You can configure API Gateway as a SOAP Webservice
 passthrough or you can transform XML to JSON
 
+###  5.17 API Gateway Caching and Throttling
+- Default likmits: 10.000 rps and 5.000 concurrent requests
+- if you exceed the limit, API Gateway will return an error: 429, too many requests
+- API Gateway uses throttling to prevent your API from being overwhelmed by too many requests.
+- [Enabling API caching to enhance responsiveness](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html)
+- [Actions](https://docs.aws.amazon.com/apigateway/latest/api/API_Operations.html)
+
 ## Certified Associate in Python Programming Certification (PCAP 31-03)
 
 ### 2. Environment Setup
@@ -191,4 +198,50 @@ def square(num):
 square_lambda = lambda num: num * 1
 
 assert square_lambda(2) == square(2)
+```
+
+#### 3.2 Using Collection Functions
+```python
+from functools import reduce
+from xml import dom
+
+
+domain = [1, 2, 3, 4, 5]
+
+#f(x) = x * 2
+our_range = map(lambda num: num * 2, domain)
+print(list(our_range))
+
+evens = filter(lambda num: num % 2 == 0, domain)
+print(list(evens))
+
+
+the_sum = reduce(lambda num, acc: num + acc, domain, 10)
+print(the_sum)
+
+words = ['Boss', 'a', 'Alfred', 'fig', 'Daemon', 'dig']
+print("Sorting by default")
+print(sorted(words))
+
+print('Sorting with a lambda key')
+print(sorted(words, key=lambda s: s.lower()))
+
+print('Sorting with a method')
+words.sort(key=str.lower, reverse=True)
+print(words)
+```
+
+#### 3.3 Understanding Closures
+```python
+def greeter(prefix):
+  other_name = prefix + "lala"
+  def greet(name):
+      print(f"{prefix} {name} {other_name}")
+  return greet
+
+hello = greeter("Hello,")
+goodbye = greeter("Goodbye,")
+
+hello("Kevin")
+goodbye("Kyle")
 ```
