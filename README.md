@@ -317,3 +317,238 @@ my_var = 1 if CONDITION else 2
 
 print("A") if CONDITION else print("B")
 ```
+
+### 5 Modules and Packages
+
+#### 5.1 Creating and Using Python Modules
+#### 5.2 Importing Modules
+Documentation: [https://docs.python.org/3/tutorial/modules.html](https://docs.python.org/3/tutorial/modules.html)
+
+####  5.3 Executing Modules as Scripts
+- [__main__ — Top-level code environment](https://docs.python.org/3/library/__main__.html)
+- [The import statement](https://docs.python.org/3/reference/simple_stmts.html#import)
+
+#### 5.4 Hiding Module Entities
+- [Other Resources and Code Scripts - CHAPTER 5.4 Hiding Module Entities](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602805552722-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%205.4%20Hiding%20Module%20Entities.txt)
+
+CHAPTER 5.4
+Hiding Module Entities
+
+Now that we know how to import our modules, we might want to restrict what is exposed. In this lesson, we'll look at how we can hide some of our module's contents from being imported by other modules and scripts.
+
+Documentation for This Video
+Python Modules Documentation (https://docs.python.org/3/tutorial/modules.html)
+
+
+What Are Module Entities?
+
+When we see module entities, we need to see variables, functions, and classes (we'll cover classes in the next section). A module entity is anything we provide with a name in our module. As we've seen, these things are importable by name when we used from <module> import <name>.
+
+
+Using __all__
+
+If we want to prevent someone from importing an entity from our module, there aren't very many options. There are only two reasonable things we can do to restrict what is imported if someone uses from <module> import *. The first is by setting the __all__ variable in our module. Let's test this out by setting __all__ to a list including only extract_upper to see what happens in main.py.
+
+~/using_modules/helpers.py
+
+__all__ = ["extract_upper"]
+
+def extract_upper(phrase):
+    return list(filter(str.isupper, phrase))
+
+def extract_lower(phrase):
+    return list(filter(str.islower, phrase))
+
+if __name__ == "__main__":
+    print("HELLO FROM HELPERS")
+
+
+In main.py, we had been using both of these functions after loading them with from helpers import *. Here's another look at what main.py currently looks like.
+
+~/using_modules/main.py
+
+from helpers import *
+import extras
+
+print(f"Lowercase letters: {extract_lower(extras.name)}")
+print(f"Uppercase letters: {extract_upper(extras.name)}")
+
+
+With __all__ set in helpers, let's run main.py to see what happens.
+
+$ python3.7 main.py
+Traceback (most recent call last):
+  File "main.py", line 4, in <module>
+    print(f"Lowercase letters: {extract_lower(extras.name)}")
+NameError: name 'extract_lower' is not defined
+
+
+Although name exists within helpers.py, it is not available in other modules via from helpers import *. This does not mean that we can't explicitly import extract_lower though. Let's modify main.py to import extract_lower by name.
+
+~/using_modules/main.py
+
+from helpers import *
+from helpers import extract_lower
+import extras
+
+print(f"Lowercase letters: {extract_lower(extras.name)}")
+print(f"Uppercase letters: {extract_upper(extras.name)}")
+
+
+Let's run this one more time.
+
+$ python3.7 main.py
+Lowercase letters: ['e', 'i', 't', 'h', 'h', 'o', 'm', 'p', 's', 'o', 'n']
+Uppercase letters: ['K', 'T']
+
+
+While it doesn't allow us to prevent an entity from ever being imported, using __all__ does provide a way of sometimes restricting what is imported by modules and scripts consuming our modules and packages.
+
+
+
+Using Underscored Entities
+
+The other way we can prevent an entity from being exported automatically when someone uses from <module> import * is by making the first character an underscore (_). If we removed __all__ from helpers.py and created a variable called _hidden_var = "test", we would not have access to _hidden_var after running from helpers import *.
+
+#### 5.5 The Module Search Path
+CHAPTER 5.5
+The Module Search Path
+
+We've seen how to create our modules, and we've been able to import them from scripts adjacent to them in the file system, but where else can we import modules from?
+
+Documentation For This Video
+Python Modules Documentation (https://docs.python.org/3/tutorial/modules.html)
+Python Standard Libary (https://docs.python.org/3/library/)
+Sys Module (https://docs.python.org/3/library/sys.html)
+
+
+Where Do Modules Come From?
+Python is a language with a large and powerful standard library (https://docs.python.org/3/library/) of modules. To use these modules, we need to import them the same way that we've been importing our local modules, but how does Python know where to find the code for these modules? To understand this we need to look at the module search path. When Python goes looking for a module it has a path that works very much like the PATH variable used by our shell to find executables. A few different things are combined to make this path:
+
+
+The directory containing the running script is automatically the first item in the search path. When running the REPL this will be the current directory.
+
+The values set in the PYTHONPATH environment variable (if it is set) will be next in the list.
+
+Finally, a list of directories configured when Python was installed. This list contains paths to directories that have the standard library modules and other packages we've installed.
+
+
+If we want to see the module search path, we can import the sys module and view the path variable. Let's do this from a REPL.
+
+$ python3.7
+Python 3.7.6 (default, Jan 29 2020, 21:20:26)
+[GCC 4.8.5 20150623 (Red Hat 4.8.5-39)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import sys
+>>> sys.path
+['', '/home/cloud_user/.pyenv/versions/3.7.6/lib/python37.zip', '/home/cloud_user/.pyenv/versions/3.7.6/lib/python3.7', '/home/cloud_user/.pyenv/versions/3.7.6/lib/python3.7/lib-dynload', '/home/cloud_user/.pyenv/versions/3.7.6/lib/python3.7/site-packages']
+>>> exit()
+
+
+Our Python install is in ~/.pyenv/versions/3.7.6, and the directories within contain the standard library. The site-packages directory contains third-party packages that we might install.
+
+Just to show that we can change this, let's set the PYTHONPATH environment variable when starting the REPL.
+
+$ PYTHONPATH=/home/cloud_user python3.7
+Python 3.7.6 (default, Jan 29 2020, 21:20:26)
+[GCC 4.8.5 20150623 (Red Hat 4.8.5-39)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import sys
+>>> sys.path
+['', '/home/cloud_user', '/home/cloud_user/.pyenv/versions/3.7.6/lib/python37.zip', '/home/cloud_user/.pyenv/versions/3.7.6/lib/python3.7', '/home/cloud_user/.pyenv/versions/3.7.6/lib/python3.7/lib-dynload', '/home/cloud_user/.pyenv/versions/3.7.6/lib/python3.7/site-packages']
+>>> exit()
+
+
+Now we can see that /home/cloud_user is the second item in the list. If we don't have a package in our current directory (the '' in the list), then it will check items passed in via PYTHONPATH before looking at items provided by our Python installation.
+
+Note: Python will search for a built-in module by name before searching the paths in sys.path. This means you can't accidentally create a module with the same name as a built-in module, which prevents you from overwriting the built-in module.
+
+[source](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602863127097-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%205.5%20The%20Module%20Search%20Path.txt)
+
+#### 5.6 Creating and Using Python Packages
+
+Python modules are simply Python files, but they are not the only way we can bundle up our code for reuse. Modules are not that easy to share. The primary way we share code is by wrapping our modules into packages. In this lesson, we'll learn what it takes to create a Python package.
+
+Documentation for This Video
+Python Packages Documentation (https://docs.python.org/3/tutorial/modules.html#packages)
+Implicit Namespace Packages (https://www.python.org/dev/peps/pep-0420/#specification)
+
+
+What Is a Package in Python?
+
+A package is a namespace that allows us to group modules together. We create a package in Python by creating a directory to hold our modules and adding a special file named __init__.py. To show how a package can allow us to organize our code even more, let's create a helpers directory within using_modules. Let's create an empty __init__.py file within that directory.
+
+$ mkdir ~/using_modules/helpers
+$ touch ~/using_modules/helpers/__init__.py
+
+
+The __init__.py doesn't need to have anything in it, though we can and will use it later. Next, let's move our helpers.py file into the helpers directory and change its name to strings.py since this file holds helper functions completely focused on working with strings. Our extras.py module actually doesn't do anything besides defining variables, so let's move it into helpers as helpers/variables.py.
+
+$ cd ~/using_modules
+$ mv helpers.py helpers/strings.py
+$ mv extras.py helpers/variables.py
+
+
+We now have a package that contains two modules, but we also broke main.py. Let's change main.py to use our package, instead of the modules that we had before.
+
+~/using_modules/main.py
+
+from helpers.strings import extract_lower, extract_upper
+from helpers import variables
+import helpers
+
+print(f"Lowercase letters: {extract_lower(variables.name)}")
+print(f"Uppercase letters: {extract_upper(variables.name)}")
+print(f"From helpers: {helpers.strings.extract_lower(variables.name)}")
+
+
+The things to note here are that we can access the modules within our packages by importing them directly like with variables and by chaining them off of the package name to import entities directly from the child module. Just like we can with a module, we're able to import the package directly.
+
+Running main.py again we should see:
+
+$ python3.7 main.py
+Lowercase letters: ['e', 'i', 't', 'h', 'h', 'o', 'm', 'p', 's', 'o', 'n']
+Uppercase letters: ['K', 'T']
+From helpers: ['e', 'i', 't', 'h', 'h', 'o', 'm', 'p', 's', 'o', 'n']
+
+
+What Does __init__.py Do?
+
+The mysterious __init__.py file is used to set up the initialization code for a package, but what does this mean? This means that when the first subpackage or module within the parent package is accessed, then the code within __init__.py gets executed. The primary other thing we can do with our __init__.py is define the __all__ value for when we use from <package> import *. This doesn't immediately make sense because our __init__.py doesn't define anything right now, but we can import parts from our submodules and then make those immediately available if someone imports our package. Let's modify helpers/__init__.py to do just that.
+
+~/using_modules/helpers/__init__.py
+
+__all__ = ['extract_upper']
+
+from .strings import *
+
+
+The syntax of .strings allows us to specify that we want to load the strings module within our package, regardless of what our package is named. This is just a way to be a little more explicit. Let's change our main.py to use this.
+
+~/using_modules/main.py
+
+from helpers.strings import extract_lower
+from helpers import variables
+from helpers import *
+import helpers
+
+print(f"Lowercase letters (from strings): {extract_lower(variables.name)}")
+print(f"Uppercase letters (from package): {extract_upper(variables.name)}")
+print(f"Off of helpers: {helpers.strings.extract_lower(variables.name)}")
+
+
+Once again, let's run our script to see that this code works.
+
+$ python3.7 main.py
+Lowercase letters (from strings): ['e', 'i', 't', 'h', 'h', 'o', 'm', 'p', 's', 'o', 'n']
+Uppercase letters (from package): ['K', 'T']
+Off of helpers: ['e', 'i', 't', 'h', 'h', 'o', 'm', 'p', 's', 'o', 'n']
+
+
+Implicit Namespace Packages
+
+While the PCAP syllabus doesn't actually mention implicit namespace packages, it is worth noting that they exist. As of Python 3.3, if we're creating a package that doesn't need to do anything with the __init__.py, then we can skip creating the __init__.py entirely and our package will work just fine.
+
+- [https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602891102789-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%205.6%20Creating%20and%20Using%20Python%20Packages.txt](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602891102789-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%205.6%20Creating%20and%20Using%20Python%20Packages.txt)
+- [6.4. Packages](https://docs.python.org/3/tutorial/modules.html#packages)
+- [Specification](https://peps.python.org/pep-0420/#specification)
