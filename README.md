@@ -955,3 +955,187 @@ Our package is installed and our script runs again without using a module local 
 - [pip documentation](https://pip.pypa.io/en/stable/getting-started/)
 - [Requests(HTTP Library)](https://pypi.org/project/requests/)
 - [Class notes](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602891888875-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%205.7%20Distributing%20and%20Installing%20Packages.txt)
+
+####  5.8 Docstrings, Doctests, and Shebangs
+Docstrings, Doctests, and Shebangs
+
+Now that we've created both modules and packages, we should help the potential users of our code by adding some documentation. Additionally, it's a little cumbersome to continually pass our main.py script to the Python executable to run it, so we're going to turn that script into an executable to make using it a little easier.
+
+Documentation for This Video
+Python Packages Documentation (https://docs.python.org/3/tutorial/modules.html#packages)
+Python doctest Module (https://docs.python.org/3/library/doctest.html)
+
+
+Documenting Python Code Using Docstrings
+
+In many languages, when we write documentation for our code, it exists in the source code as a comment. Python is a little different because the documentation exists in the code. This official type of documentation is done by adding docstrings to our modules at the top of the file, or within functions, methods, and classes. Docstrings are triple quoted strings (start with """ or ''') used to write multi-line, structured documentation. To add documentation to a package, we can add a docstring to the top of the package's __init__.py file. Let's add some documentation to the helpers package.
+
+~/using_modules/helpers/src/helpers/__init__.py
+
+"""
+Helpers is a package that provides easy to use helper functions
+and variables.
+"""
+
+__all__ = ["extract_upper"]
+
+from .strings import *
+
+
+One of the most common misconceptions in Python is that we just created a "block comment". That's entirely incorrect. We created a multi-line string and the interpreter has to do some work to read that content. An actual comment starts with an octothorp/hash/pound sign and the interpreter completely ignores it. In the very specific case of a docstring, this string will actually be assigned to a hidden variable on the package, module, function: the __doc__ variable. To demonstrate this, we're going to change how we installed our package so that it will pick up code changes as we write them. First, let's uninstall the existing helpers package.
+
+Note: Since pip matches your Python version, if you are not using pip 3.7 you can use the pip -V command to find its version.
+
+$ pip3.7 uninstall -y helpers
+Found existing installation: helpers 1.0.0
+Uninstalling helpers-1.0.0:
+  Successfully uninstalled helpers-1.0.0
+
+
+We can install the package's source so that the changes we make will be available without a reinstall. This is handy in development, but not something we would have other users do.
+
+$ cd ~/using_modules/helpers
+$ pip3.7 install --editable .
+Obtaining file:///home/cloud_user/using_modules/helpers
+Installing collected packages: helpers
+  Running setup.py develop for helpers
+Successfully installed helpers
+
+
+To see that our documentation is accessible in code, let's start the REPL, import our package, and access the __doc__ variable:
+
+$ python3.7
+Python 3.7.6 (default, Jan 30 2020, 15:46:02)
+[GCC 4.8.5 20150623 (Red Hat 4.8.5-39)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import helpers
+>>> helpers.__doc__
+'\nHelpers is a package that provides easy to use helper functions\nand variables.\n'
+
+
+Since modules are just Python files, we can do this same thing to document any module we write. To document a function we will create a triple-quoted string at the top of the function body. Let's write some documentation for extract_upper now.
+
+~/using_modules/helpers/src/helpers/strings.py
+
+def extract_upper(phrase):
+    """
+    extract_upper takes a string and returns a list containing
+    only the uppercase characters from the string
+
+    >>> extract_upper("Hello There, BOB")
+    ['H', 'T', 'B', 'O', '']
+    """
+    return list(filter(str.isupper, phrase))
+
+def extract_lower(phrase):
+    return list(filter(str.islower, phrase))
+
+if __name__ == "__main__":
+    print("HELLO FROM HELPERS")
+
+
+We've now created a docstring for a function. One of the downsides with documenting code is that it is pretty easy for the documentation and the code to get out of sync with one another, and bad documentation helps no one. Thankfully, docstrings can be used by another standard library module called doctest that allows us to add what looks like Python REPL lines into our docstrings that will then be evaluated to verify that they produce the expected results. Let's use the doctest module on our file to see if our documentation is accurate.
+
+$ python3.7 -m doctest src/helpers/strings.py
+**********************************************************************
+File "src/helpers/strings.py", line 6, in strings.extract_upper
+Failed example:
+    extract_upper("Hello There, BOB")
+Expected:
+    ['H', 'T', 'B', 'O', '']
+Got:
+    ['H', 'T', 'B', 'O', 'B']
+**********************************************************************
+1 items had failures:
+   1 of   1 in strings.extract_upper
+***Test Failed*** 1 failures.
+
+
+Our documentation is acting as an automated test and can now help us find regressions in our code and our documentation. In this case, the code works as intended, but there's a typo in the documentation that demonstrates how the code would be used. Let's fix that.
+
+~/using_modules/helpers/src/helpers/strings.py
+
+def extract_upper(phrase):
+    """
+    extract_upper takes a string and returns a list containing
+    only the uppercase characters from the string
+
+    >>> extract_upper("Hello There, BOB")
+    ['H', 'T', 'B', 'O', 'B']
+    """
+    return list(filter(str.isupper, phrase))
+
+def extract_lower(phrase):
+    return list(filter(str.islower, phrase))
+
+if __name__ == "__main__":
+    print("HELLO FROM HELPERS")
+
+
+If we run doctest again, we should see no output because the results match the expected outcome.
+
+$ python3.7 -m doctest src/helpers/strings.py
+$
+
+
+Setting a Shebang for a Script
+
+The last thing we want to do is adjust main.py, so that we can run it directly. To do this, we need to do two things:
+
+Explicitly make it executable using chmod.
+Add a shebang to the top of the script so that the proper program will run the script.
+
+
+Shebangs are useful because they allow us to write scripts in languages other than our shell's language (bash, sh, zsh, etc.). For this to work, we need to add a reference to the executable to use at the top of the file in a special comment called a shebang. From the perspective of Python, a shebang starts like any other comment, but then immediately has an exclamation point. Let's set our script to use the default python executable that is currently active in our environment.
+
+~/using_modules/main.py
+
+#!/usr/bin/env python
+
+from helpers.strings import extract_lower
+from helpers import variables
+from helpers import *
+import helpers
+
+print(f"Lowercase letters (from strings): {extract_lower(variables.name)}")
+print(f"Uppercase letters (from package): {extract_upper(variables.name)}")
+print(f"Off of helpers: {helpers.strings.extract_lower(variables.name)}")
+
+
+If we make the script exectuable and run it, we should see the usual output without needing to pass it to the Python executable.
+
+$ chmod +x ~/using_modules/main.py
+$ ~/using_modules/main.py
+Lowercase letters (from strings): ['e', 'i', 't', 'h', 'h', 'o', 'm', 'p', 's', 'o', 'n']
+Uppercase letters (from package): ['K', 'T']
+Off of helpers: ['e', 'i', 't', 'h', 'h', 'o', 'm', 'p', 's', 'o', 'n']
+
+
+Using the env command followed by the executable we'd normally use is a good approach to setting a shebang for Python. If we want to be explicit about the version of Python to use, then we can use the absolute path. Using our pyenv-installed Python 3.7.6, we would use this path:
+
+~/using_modules/main.py
+
+#!/home/cloud_user/.pyenv/versions/3.7.6/bin/python
+
+from helpers.strings import extract_lower
+from helpers import variables
+from helpers import *
+import helpers
+
+print(f"Lowercase letters (from strings): {extract_lower(variables.name)}")
+print(f"Uppercase letters (from package): {extract_upper(variables.name)}")
+print(f"Off of helpers: {helpers.strings.extract_lower(variables.name)}")
+
+
+If we switch our Python back to the system Python and run main.py, it will still have access to the helpers package which is only installed for version 3.7.6.
+
+$ pyenv shell system
+$ python -V
+Python 2.7.5
+$ ~/using_modules/main.py
+Lowercase letters (from strings): ['e', 'i', 't', 'h', 'h', 'o', 'm', 'p', 's', 'o', 'n']
+Uppercase letters (from package): ['K', 'T']
+Off of helpers: ['e', 'i', 't', 'h', 'h', 'o', 'm', 'p', 's', 'o', 'n']
+
+- [doctest — Test interactive Python examples](https://docs.python.org/3/library/doctest.html)
+- [Other Resources and Code Scripts - CHAPTER 5.8 Docstrings, Doctests, and Shebangs](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602892402480-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%205.8%20Docstrings%2C%20Doctests%2C%20and%20Shebangs.txt)
