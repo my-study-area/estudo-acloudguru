@@ -1139,3 +1139,12 @@ Off of helpers: ['e', 'i', 't', 'h', 'h', 'o', 'm', 'p', 's', 'o', 'n']
 
 - [doctest — Test interactive Python examples](https://docs.python.org/3/library/doctest.html)
 - [Other Resources and Code Scripts - CHAPTER 5.8 Docstrings, Doctests, and Shebangs](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602892402480-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%205.8%20Docstrings%2C%20Doctests%2C%20and%20Shebangs.txt)
+
+#### 5.9 Helpful Modules: the math and random Modules
+
+####  5.10 Helpful Modules: the platform Module
+
+### 6 Classes and Object-Oriented Programming
+#### 6.1 What is an Object?
+- [Classes](https://docs.python.org/3/tutorial/classes.html)
+- [CHAPTER 6.1 What is an Object?](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602892810482-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%206.1%20What%20is%20an%20Object.txt)
