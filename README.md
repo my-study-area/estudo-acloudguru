@@ -1153,3 +1153,36 @@ Off of helpers: ['e', 'i', 't', 'h', 'h', 'o', 'm', 'p', 's', 'o', 'n']
 - [Classes](https://docs.python.org/3/tutorial/classes.html#classes)
 - [Other Resources and Code Scripts - CHAPTER 6.2 Creating and Using Python Classes](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602896521296-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%206.2%20Creating%20and%20Using%20Python%20Classes.txt)
 
+#### 6.3 Custom Constructors, Class Methods, and Decorators
+```python
+class Vehicle:
+    """
+    Vehicle models a vehicle w/ tires and an engine
+    """
+
+    default_tire = 'tire'
+
+    def __init__(self, engine, tires):
+        self.engine = engine
+        self.tires = tires
+
+    def description(self):
+        print(f"A vehicle with an {self.engine} engine, and {self.tires} tires")
+
+    @classmethod
+    def bicycle(cls, tires=None):
+        if not tires:
+            tires = [cls.default_tire, cls.default_tire]
+        return cls(None, tires)
+
+civic = Vehicle('4-cylinder', ['front-driver', 'front-passenger', 'rear-driver', 'rear-passenger'])
+print(civic.description())
+print(Vehicle.default_tire)
+bycicle = Vehicle.bicycle()
+print(bycicle.tires)
+bycicle.description()
+```
+
+- [Custom Constructors, Class Methods, and Decorators](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602897579836-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%206.3%20Custom%20Constructors%2C%20Class%20Methods%2C%20and%20Decorators.txt)
+- [@classmethod](https://docs.python.org/3/library/functions.html#classmethod)
+
