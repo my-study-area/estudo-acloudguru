@@ -1186,3 +1186,8 @@ bycicle.description()
 - [Custom Constructors, Class Methods, and Decorators](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602897579836-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%206.3%20Custom%20Constructors%2C%20Class%20Methods%2C%20and%20Decorators.txt)
 - [@classmethod](https://docs.python.org/3/library/functions.html#classmethod)
 
+#### 6.4 Inheritance and Super
+- [Classes](https://docs.python.org/3/tutorial/classes.html#classes)
+- [Inheritance](https://docs.python.org/3.7/tutorial/classes.html#inheritance)
+- [Super](https://docs.python.org/3/library/functions.html#super)
+- [Inheritance and Super](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602898239115-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%206.4%20Inheritance%20and%20Super.txt)

@@ -1,5 +1,6 @@
 print("We're import 'helpers' from 'main'")
 from helpers import *
+from helpers import extract_lower
 import extras
 
 print(f'main = {__name__}')
