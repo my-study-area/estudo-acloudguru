@@ -1191,3 +1191,72 @@ bycicle.description()
 - [Inheritance](https://docs.python.org/3.7/tutorial/classes.html#inheritance)
 - [Super](https://docs.python.org/3/library/functions.html#super)
 - [Inheritance and Super](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602898239115-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%206.4%20Inheritance%20and%20Super.txt)
+
+#### 6.5 Single and Multiple Inheritance
+```python
+#amphibious_vehicle.py
+
+from boat import Boat
+from car import Car
+
+class AmphibiousVehicle(Car, Boat):
+    def __init__(self, engine, tires=[], distance_traveled=0, unit="miles"):
+        super().__init__(
+            engine=engine, tires=tires, distance_traveled=distance_traveled, unit=unit
+        )
+        self.boat_type = "motor"
+
+    def travel(self, land_distance=0, water_distance=0):
+        self.voyage(water_distance)
+        self.drive(land_distance)
+
+
+#boat.py
+from vehicle import Vehicle
+
+class Boat(Vehicle):
+    def __init__(self, boat_type="sail", distance_traveled=0, unit="miles", **kwargs):
+        super().__init__(distance_traveled=distance_traveled, unit=unit, **kwargs)
+        self.boat_type = boat_type
+
+    def voyage(self, distance):
+        self.distance_traveled += distance
+
+    def description(self):
+        initial = super().description()
+        return f"{initial} using a {self.boat_type}"
+
+#car.py
+from vehicle import Vehicle
+
+class Car(Vehicle):
+    default_tire = "tire"
+
+    def __init__(self, engine, tires=[], distance_traveled=0, unit="miles", **kwargs):
+        super().__init__(distance_traveled=distance_traveled, unit=unit, **kwargs)
+        if not tires:
+            tires = [self.default_tire, self.default_tire]
+        self.tires = tires
+        self.engine = engine
+
+    def drive(self, distance):
+        self.distance_traveled += distance
+
+#vehicle.py
+class Vehicle:
+    """
+    Vehicle models a device that can be used to travel.
+    """
+
+    def __init__(self, distance_traveled=0, unit="miles", **kwargs):
+        self.distance_traveled = distance_traveled
+        self.unit = unit
+
+    def description(self):
+        return f"A {self.__class__.__name__} that has traveled {self.distance_traveled} {self.unit}"
+```
+
+- [Multiple Inheritance](https://docs.python.org/3/tutorial/classes.html#multiple-inheritance)
+- [class super](https://docs.python.org/3/library/functions.html#super)
+- [Single and Multiple Inheritance](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602898931058-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%206.5%20Single%20and%20Multiple%20Inheritance.txt)
+
