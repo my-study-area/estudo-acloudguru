@@ -1260,3 +1260,131 @@ class Vehicle:
 - [class super](https://docs.python.org/3/library/functions.html#super)
 - [Single and Multiple Inheritance](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1602898931058-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%206.5%20Single%20and%20Multiple%20Inheritance.txt)
 
+#### 6.6 Name Mangling
+```python
+#mapping.py
+class Mapping:
+    def __init__(self, iterable):
+        self.items_list = []
+        self.__update(iterable)
+
+    def update(self, iterable):
+        for item in iterable:
+            self.items_list.append(item)
+
+    __update = update  # private copy of original update() method
+
+
+class MappingSubclass(Mapping):
+    def update(self, keys, values):
+        # provides new signature for update()
+        # but does not break __init__()
+        for item in zip(keys, values):
+            self.items_list.append(item)
+
+    def print_something(self):
+        print("Printing something")
+
+    __update = print_something
+```
+
+```bash
+python -i mapping.py
+dir(Mapping)
+#['_MappingSubclass__update', '_Mapping__update', '__class__', '__delattr__', '__dict__', '__dir__',
+# '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__',
+# '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', 
+# '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 
+# '__weakref__', 'print_something', 'update']
+```
+
+- [Private Variables](https://docs.python.org/3/tutorial/classes.html#private-variables)
+- [Classes](https://docs.python.org/3/tutorial/classes.html#classes)
+- [Name Mangling](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1603154998244-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%206.6%20Name%20Mangling.txt)
+- [https://www.youtube.com/watch?v=6cvFzLB6hbA&ab_channel=KennyYipCoding](https://www.youtube.com/watch?v=6cvFzLB6hbA&ab_channel=KennyYipCoding)
+
+#### 6.7 Inspecting Objects
+```bash
+python3.7 -i amphibious_vehicle.py
+>>> AmphibiousVehicle.__bases__
+(<class 'car.Car'>, <class 'boat.Boat'>)
+>>> from vehicle import Vehicle
+>>> Vehicle.__subclasses__()
+[<class 'boat.Boat'>, <class 'car.Car'>]
+>>> dir(AmphibiousVehicle)
+['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'default_tire', 'description', 'drive', 'travel', 'voyage']
+
+
+>>> from boat import Boat
+>>> hasattr(Boat, 'boat_type')
+False
+>>> from car import Car
+>>> hasattr(Car, 'default_tire')
+True
+
+
+>>> from vehicle import Vehicle
+>>> issubclass(Boat, Vehicle)
+True
+>>> issubclass(Boat, AmphibiousVehicle)
+False
+>>> issubclass(AmphibiousVehicle, Boat)
+True
+
+
+>>> from bicycle import Bicycle
+>>> water_car = AmphibiousVehicle('4 cylinder')
+>>> isinstance(water_car, Bicycle)
+False
+>>> isinstance(water_car, AmphibiousVehicle)
+True
+>>> isinstance(water_car, Boat)
+True
+
+
+>>> type(water_car)
+<class '__main__.AmphibiousVehicle'>
+
+>>> Boat.__module__
+'boat'
+
+
+>>> str(water_car)
+'<__main__.AmphibiousVehicle object at 0x7ff92283a6d0>'
+```
+
+```python
+#amphibious_vehicle.py
+
+from boat import Boat
+from car import Car
+
+class AmphibiousVehicle(Car, Boat):
+    def __init__(self, engine, tires=[], distance_traveled=0, unit="miles"):
+        super().__init__(
+            engine=engine, tires=tires, distance_traveled=distance_traveled, unit=unit,
+        )
+        self.boat_type = "motor"
+
+    def travel(self, land_distance=0, water_distance=0):
+        self.voyage(water_distance)
+        self.drive(land_distance)
+
+    def __str__(self):
+        return f"<{self.__class__.__name__} {self.__dict__}>"
+
+if __name__ == "__main__":
+    water_car = AmphibiousVehicle('4 cylinder')
+    print(water_car)
+```
+
+```bash
+python3.7 amphibious_vehicle.py
+<AmphibiousVehicle {'distance_traveled': 0, 'unit': 'miles', 'boat_type': 'motor', 'tires': ['tire', 'tire'], 'engine': '4 cylinder'}>
+```
+- [Special Attributes](https://docs.python.org/3.7/library/stdtypes.html#special-attributes)
+- [Basic customization](https://docs.python.org/3.7/reference/datamodel.html#basic-customization)
+- [hasattr](https://docs.python.org/3.7/library/functions.html#hasattr)
+- [issubclass](https://docs.python.org/3.7/library/functions.html#issubclass)
+- [isinstance](https://docs.python.org/3.7/library/functions.html#isinstance)
+- [Inspecting Objects](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1603158028492-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%206.7%20Inspecting%20Objects.txt)
