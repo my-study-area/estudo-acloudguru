@@ -1388,3 +1388,9 @@ python3.7 amphibious_vehicle.py
 - [issubclass](https://docs.python.org/3.7/library/functions.html#issubclass)
 - [isinstance](https://docs.python.org/3.7/library/functions.html#isinstance)
 - [Inspecting Objects](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1603158028492-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%206.7%20Inspecting%20Objects.txt)
+
+### 8 - Exceptions and Exception Handling
+#### 8.1 - What are Exceptions?
+- [Errors and Exceptions](https://docs.python.org/3.7/tutorial/errors.html)
+- [Built-in Exceptions](https://docs.python.org/3/library/exceptions.html)
+- [What are Exceptions](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1603160342159-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%208.1%20What%20are%20Exceptions.txt)
