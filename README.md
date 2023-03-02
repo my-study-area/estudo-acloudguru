@@ -1394,3 +1394,26 @@ python3.7 amphibious_vehicle.py
 - [Errors and Exceptions](https://docs.python.org/3.7/tutorial/errors.html)
 - [Built-in Exceptions](https://docs.python.org/3/library/exceptions.html)
 - [What are Exceptions](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1603160342159-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%208.1%20What%20are%20Exceptions.txt)
+
+#### 8.2 Handling Exceptions with `try`, `except`, `else`, and `finally`
+```python
+import sys
+import random
+
+try:
+    print(f"First argument {sys.argv[1]}")
+    args = sys.argv
+    random.shuffle(args)
+    print(f"Random argument {args[0]}")
+except (IndexError, KeyError) as err:
+    print(f"Error: no arguments, please provide at least one argument ({err})")
+except NameError:
+    print(f"Error: random module not loaded")
+else:
+    print("Else is running")
+finally:
+    print("Finally is running")
+
+```
+- [The try statement](https://docs.python.org/3/reference/compound_stmts.html#the-try-statement)
+- [Handling Exceptions with `try`, `except`, `else`, and `finally`](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1603161305315-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%208.2%20Handling%20Exceptions%20with%20%60try%60%2C%20%60except%60%2C%20%60else%60%2C%20and%20%60finally%60.txt)
