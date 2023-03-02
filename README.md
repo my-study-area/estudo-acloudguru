@@ -1417,3 +1417,17 @@ finally:
 ```
 - [The try statement](https://docs.python.org/3/reference/compound_stmts.html#the-try-statement)
 - [Handling Exceptions with `try`, `except`, `else`, and `finally`](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1603161305315-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%208.2%20Handling%20Exceptions%20with%20%60try%60%2C%20%60except%60%2C%20%60else%60%2C%20and%20%60finally%60.txt)
+
+#### 8.3 Using Built-In Exceptions
+```python
+import sys
+
+if len(sys.argv) < 2:
+    raise Exception('not enough arguments')
+
+name = sys.argv[1]
+print(f"Name is {name}")
+```
+
+- [Errors and Exceptions](https://docs.python.org/3.7/tutorial/errors.html)
+- [Using Built-In Exceptions](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1603161773692-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%208.3%20Using%20Built-In%20Exceptions.txt)
