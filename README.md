@@ -1431,3 +1431,43 @@ print(f"Name is {name}")
 
 - [Errors and Exceptions](https://docs.python.org/3.7/tutorial/errors.html)
 - [Using Built-In Exceptions](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1603161773692-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%208.3%20Using%20Built-In%20Exceptions.txt)
+
+#### 8.4 Creating Custom Exception Types
+```python
+#~/exception_handling/cli/errors.py
+
+class ArgumentError(Exception):
+    pass
+```
+
+```python
+# ~/exception_handling/cli/__init__.py
+
+import sys
+
+from .errors import ArgumentError
+
+def main():
+    if len(sys.argv) < 2:
+        raise ArgumentError('too few arguments')
+    print(f"Name is {sys.argv[1]}")
+```
+
+```python
+# ~/exception_handling/using_exceptions.py
+
+import sys
+
+from cli import main
+from cli.errors import ArgumentError
+
+try:
+    main()
+except ArgumentError as err:
+    print(f"Error: {err}")
+    sys.exit(1)
+```
+
+- [Errors and Exceptions](https://docs.python.org/3.7/tutorial/errors.html)
+- [Built-in Exceptions](https://docs.python.org/3/library/exceptions.html)
+- [Creating Custom Exception Types](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1603162045973-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%208.4%20Creating%20Custom%20Exception%20Types.txt)

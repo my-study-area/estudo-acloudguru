@@ -1,8 +1,19 @@
 
+# import sys
+
+# if len(sys.argv) < 2:
+#     raise Exception('not enough arguments')
+
+# name = sys.argv[1]
+# print(f"Name is {name}")
+
 import sys
 
-if len(sys.argv) < 2:
-    raise Exception('not enough arguments')
+from cli import main
+from cli.errors import ArgumentError
 
-name = sys.argv[1]
-print(f"Name is {name}")
+try:
+    main()
+except ArgumentError as err:
+    print(f"Error: {err}")
+    sys.exit(1)
