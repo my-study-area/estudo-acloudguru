@@ -1511,3 +1511,70 @@ Name is Kei
 - [The assert statement](https://docs.python.org/3/reference/simple_stmts.html#assert)
 - [Option -O](https://docs.python.org/3/using/cmdline.html#cmdoption-o)
 - [Using Assertions](https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1603162414261-Other%20Resources%20and%20Code%20Scripts%20-%20CHAPTER%208.5%20Using%20Assertions.txt)
+
+#### 8.6 Exception Arguments
+```python
+#transition_error.py
+class TransitionError(Exception):
+  def __init__(self, previous, next_state, message):
+      self.previous = previous
+      self.next = next_state
+      self.message = message
+
+
+#state_machine.py
+from transition_error import TransitionError
+
+class StateMachine:
+  allowed_transitions = {
+    "new": ["loading"],
+    "loading": ["completed", "incomplete"],
+    "incompleted": ["cancelled"]
+  }
+
+  def __init__(self, state="new"):
+      self.state = state
+
+  def transition(self, new_state):
+    if new_state.lower() in self.allowed_transitions[self.state]:
+      self.state = new_state.lower()
+    else:
+      raise TransitionError(self.state, new_state, f"unable to transion from {self.state} to {new_state}")
+
+if __name__ == "__main__":
+  sm = StateMachine()
+  try:
+    sm.transition("loading")
+    sm.transition("cancelled")
+  except TransitionError as err:
+    print(f"Previous State {err.previous}")
+    print(f"Desired State {err.previous}")
+    print(err.message)
+```
+
+```bash
+python state_machine.py
+Previous State loading
+Desired State loading
+unable to transion from loading to cancelled
+```
+
+```python
+# exception_args.py
+from email import message
+
+
+class ExampleError(Exception):
+  pass
+
+def bad_function():
+  raise ExampleError("this is a message", 1, 2, 4, 5, 6)
+
+try:
+  bad_function()
+except ExampleError as err:
+  message, x, y, *other = err.args
+  print(message)
+  print(x + y)
+  print(other)
+```
